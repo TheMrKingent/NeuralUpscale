@@ -1,3 +1,3 @@
-# NeuralUpscale
+# Neural Upscale 2x
 
 Image super-resolution via deep convolutional neural network, API and pre-trained models.

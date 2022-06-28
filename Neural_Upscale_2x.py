@@ -1,7 +1,7 @@
 
 ''' 
 Upscaler classes.
-Implements RGB and Luminance Upscaler.
+Implements RGB and Luminance upscalers.
 '''
 
 

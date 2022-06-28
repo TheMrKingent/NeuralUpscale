@@ -1,3 +1,9 @@
+'''
+Various utilities for Neural Upscale 2X.
+Also useful to train and test models.
+'''
+
+
 
 import tensorflow as tf
 import tensorflow_io as tfio
@@ -25,7 +31,7 @@ def scale(input_image):
 
 
 def rgb_to_luminance(input_image):
-    '''Convert to yuv and extract luminance y only.'''
+    '''Convert to yuv and extract luminance channel y.'''
    
     yuv = tf.image.rgb_to_yuv(input_image)
     last_dimension_axis = len(yuv.shape) - 1
@@ -50,14 +56,14 @@ def associate_gt(input_image, training_gt_size):
 # Preprocess routines
 
 def preprocess_dataset_rgb_model(dataset, training_gt_size):
-    '''Preprocess routine for RGB model. Output is a model compatible dataset.'''
+    '''Full preprocess routine for RGB model. Output is a model compatible dataset.'''
     
     scaled_dataset = dataset.map(scale)
     return scaled_dataset.map(lambda x: associate_gt(x, training_gt_size))
 
 
 def preprocess_dataset_luminance_model(dataset, training_gt_size):
-    '''Preprocess routine for Luminance model. Output is a model compatible dataset.'''
+    '''Full preprocess routine for Luminance model. Output is a model compatible dataset.'''
     
     scaled_dataset = dataset.map(scale)
     scaled_lum_dataset =scaled_dataset.map(rgb_to_luminance)
@@ -69,11 +75,15 @@ def preprocess_dataset_luminance_model(dataset, training_gt_size):
 # Inverse PSNR loss function
 
 def tensor_log10(x):
+    '''Compute log10 of tensor's elements.'''
+    
     numerator = tf.math.log(x)
     denominator = tf.math.log(tf.constant(10, dtype=numerator.dtype))
     return numerator / denominator
 
 def inverse_PSNR(lowres_img, gt_img):
+    '''Compute inverse PSNR (1/PSNR) between two images.'''
+    
     squared_diff = tf.square(gt_img - lowres_img)
     mse = tf.reduce_mean(squared_diff)
     psnr = 10 * tensor_log10(1 / mse)
@@ -84,7 +94,8 @@ def inverse_PSNR(lowres_img, gt_img):
 # -----------------------------------------------------------------------------
 # Model utilities
 
-def load_model(path):
+def load_upscaling_model(path):
+    '''Quick model load and setup from path.'''
     
     model = keras.models.load_model(path, compile = False)
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.001), loss=inverse_PSNR)
@@ -103,11 +114,11 @@ def plot_results(img, zoom, x1, x2, y1, y2, suplot_loc, loc1, loc2, title=None, 
     img_array = img_to_array(img)
     img_array = img_array.astype("uint8") / 255
 
-    # Create a new figure with a default 111 subplot.
+    # Create a new figure with a default subplot.
     fig, ax = plt.subplots()
     im = ax.imshow(img_array[::-1], origin="lower")
 
-    # zoom-factor: zoom, location: suplot_loc
+    # Zoom-factor: zoom, location: suplot_loc
     axins = zoomed_inset_axes(ax, zoom, loc=suplot_loc)
     axins.imshow(img_array[::-1], origin="lower")
 
@@ -127,8 +138,7 @@ def plot_results(img, zoom, x1, x2, y1, y2, suplot_loc, loc1, loc2, title=None, 
     if save == True:
         plt.savefig(title + ".png", dpi='figure', bbox_inches='tight')
         
-    plt.show()   
-    
+    plt.show()
 
 
 def downscale(img):
@@ -146,8 +156,10 @@ def bicubic_upscale(img):
 
 
 def compare(img, upscaler, title=None, zoom=2, x1=200, x2=300, y1=100, y2=200, suplot_loc=2, loc1=1, loc2=3, save=False, dpi=100):
-    '''Plot Groud truth, downscaled + Bicubic upscale, downscaled + Neural net upscale.
-    Usefull for performance evaluation.'''
+    '''Plot Groud truth, downscaled + Bicubic upscale, downscaled + Neural net upscale. Also return PSNR.
+    
+    upscaler can eventually be a list of upscaler objects, in which case one image per upscaler will be plotted.
+    Useful for performance evaluation.'''
 
     img = tf.image.resize(img, (img.size[1] //2 * 2, img.size[0] //2 * 2))
     img = array_to_img(img)
@@ -179,7 +191,8 @@ def compare(img, upscaler, title=None, zoom=2, x1=200, x2=300, y1=100, y2=200, s
 
 def dataset_psnr(test_path, upscaler, limit_data=None):
     '''Compute average PSNR of a given dataset between ground truth and Neural net upscaled images.
-       PSNR is computed on final reconstructed images.'''
+       PSNR is computed on final reconstructed images, which makes it comparable
+       across different upscaling methods (e.g. different number of channels).'''
 
     image_names = os.listdir(test_path)
     psnr_vector = np.array([])
@@ -210,7 +223,7 @@ def dataset_psnr(test_path, upscaler, limit_data=None):
     
 def dataset_psnr_bicubic(test_path, limit_data=None):
     '''Compute PSNR of a given dataset between ground truth and bicubic upscaled images.
-    Usefull for benchmarking.'''
+    Useful for benchmarking.'''
     
     image_names = os.listdir(test_path)
     psnr_vector = np.array([])
@@ -236,5 +249,4 @@ def dataset_psnr_bicubic(test_path, limit_data=None):
             psnr = tf.image.psnr(img_to_array(bic_img), img_to_array(img), max_val=255).numpy()
             psnr_vector = np.append(psnr_vector, psnr)
             
-    return psnr_vector 
-    
+    return psnr_vector

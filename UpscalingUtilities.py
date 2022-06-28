@@ -11,11 +11,9 @@ from tensorflow import keras
 from tensorflow.keras.preprocessing.image import array_to_img
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.preprocessing.image import load_img
-
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes
 from mpl_toolkits.axes_grid1.inset_locator import mark_inset
-
 import os
 import numpy as np
 
@@ -25,13 +23,13 @@ import numpy as np
 # Preprocess utilities
 
 def scale(input_image):
-    '''Scale RGB values from 0,255 to 0,1.'''
+    '''Scales RGB values from 0,255 to 0,1.'''
    
     return (input_image) / 255.0
 
 
 def rgb_to_luminance(input_image):
-    '''Convert to yuv and extract luminance channel y.'''
+    '''Converts to yuv and extract luminance channel y.'''
    
     yuv = tf.image.rgb_to_yuv(input_image)
     last_dimension_axis = len(yuv.shape) - 1
@@ -40,7 +38,7 @@ def rgb_to_luminance(input_image):
 
 
 def resize_to_half(input_image, training_gt_size):
-    '''Resize image to half the size.'''
+    '''Resizes image to half the size.'''
     
     return tf.image.resize(input_image, [training_gt_size//2, training_gt_size//2], method="area")
 
@@ -75,14 +73,14 @@ def preprocess_dataset_luminance_model(dataset, training_gt_size):
 # Inverse PSNR loss function
 
 def tensor_log10(x):
-    '''Compute log10 of tensor's elements.'''
+    '''Computes log10 of tensor's elements.'''
     
     numerator = tf.math.log(x)
     denominator = tf.math.log(tf.constant(10, dtype=numerator.dtype))
     return numerator / denominator
 
 def inverse_PSNR(lowres_img, gt_img):
-    '''Compute inverse PSNR (1/PSNR) between two images.'''
+    '''Computes inverse PSNR (1/PSNR) between two images.'''
     
     squared_diff = tf.square(gt_img - lowres_img)
     mse = tf.reduce_mean(squared_diff)
@@ -107,7 +105,7 @@ def load_upscaling_model(path):
 # Testing utilities
 
 def plot_results(img, zoom, x1, x2, y1, y2, suplot_loc, loc1, loc2, title=None, save=False, dpi=100):
-    '''Plot the result with zoom-in area.'''
+    '''Plots the result with zoom-in area.'''
     
     plt.rcParams["figure.dpi"] = dpi
     
@@ -142,21 +140,21 @@ def plot_results(img, zoom, x1, x2, y1, y2, suplot_loc, loc1, loc2, title=None, 
 
 
 def downscale(img):
-    '''Downscale image using bicubic interpolation.'''
+    '''Downscales image using bicubic interpolation.'''
     
     shrinked = tf.image.resize(img, (img.size[1] // 2, img.size[0] // 2), method='bicubic')
     return array_to_img(shrinked)
 
 
 def bicubic_upscale(img):
-    '''Upscale image using bicubic interpolation.'''
+    '''Upscales image using bicubic interpolation.'''
     
     enlarged = tf.image.resize(img, (img.size[1] * 2, img.size[0] * 2), method='bicubic')
     return array_to_img(enlarged)
 
 
 def compare(img, upscaler, title=None, zoom=2, x1=200, x2=300, y1=100, y2=200, suplot_loc=2, loc1=1, loc2=3, save=False, dpi=100):
-    '''Plot Groud truth, downscaled + Bicubic upscale, downscaled + Neural net upscale. Also return PSNR.
+    '''Plots Groud truth, downscaled + Bicubic upscale, downscaled + Neural net upscale. Also returns PSNR.
     
     upscaler can eventually be a list of upscaler objects, in which case one image per upscaler will be plotted.
     Useful for performance evaluation.'''
@@ -190,7 +188,7 @@ def compare(img, upscaler, title=None, zoom=2, x1=200, x2=300, y1=100, y2=200, s
 
 
 def dataset_psnr(test_path, upscaler, limit_data=None):
-    '''Compute average PSNR of a given dataset between ground truth and Neural net upscaled images.
+    '''Computes average PSNR of a given dataset between ground truth and Neural net upscaled images.
        PSNR is computed on final reconstructed images, which makes it comparable
        across different upscaling methods (e.g. different number of channels).'''
 
@@ -222,7 +220,7 @@ def dataset_psnr(test_path, upscaler, limit_data=None):
     
     
 def dataset_psnr_bicubic(test_path, limit_data=None):
-    '''Compute PSNR of a given dataset between ground truth and bicubic upscaled images.
+    '''Computes PSNR of a given dataset between ground truth and bicubic upscaled images.
     Useful for benchmarking.'''
     
     image_names = os.listdir(test_path)

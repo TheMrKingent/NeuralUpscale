@@ -17,7 +17,7 @@ from UpscalingUtilities import *
 from Neural_Upscale_2x import *
 ```
 
-2. Load desired model. Pre-trained models are either `Luminance_Model` or `RGB_Model`, contained in the respective directories. Say you want to use the first:
+2. Load desired model. Pre-trained models are either `Luminance_Model` or `RGB_Model`. Say you want to use the first one:
 
 ```python
 model = load_upscaling_model('../Luminance_Model')
@@ -43,7 +43,7 @@ upscaler = luminanceUpscaler(model)
 ```
 
 ***
-![LargeMatrix](https://user-images.githubusercontent.com/44241033/176714502-6836391c-3b6f-46ef-905f-afc3008da0fc.PNG)
+![LargeMatrix](https://user-images.githubusercontent.com/44241033/176727675-a489f74f-784c-4d5f-81c2-624c2be53b36.png)
 
 ***
 ### References

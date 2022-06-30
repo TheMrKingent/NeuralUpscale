@@ -1,3 +1,5 @@
+# UpscalingUtilities
+# Author: Mattia Lamberti
 
 '''
 Various utilities for Neural Upscale 2X.

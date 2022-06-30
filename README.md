@@ -38,8 +38,8 @@ img = load_img(../img.png)
 5. Upscale! Returns a `PIL` image instance, which you can save as usual:
 
 ```python
-sr_img = upscaler.upscale(img)
-sr_img.save('../title.png')
+2x_img = upscaler.upscale(img)
+2x_img.save('../title.png')
 ```
 
 ***

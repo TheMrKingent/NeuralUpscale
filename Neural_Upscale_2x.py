@@ -1,3 +1,6 @@
+# Neural_Upscale_2x
+# Author: Mattia Lamberti
+
 
 ''' 
 Upscaler classes.

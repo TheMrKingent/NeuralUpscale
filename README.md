@@ -51,6 +51,6 @@ upscaler = luminanceUpscaler(model)
 <a id="1">[1]</a> 
 Wenzhe Shi, Jose Caballero, Ferenc Huszár, Johannes Totz, Andrew P Aitken, Rob Bishop, Daniel Rueckert, and Zehan Wang. Real-time single image and video super-resolution using an efficient sub-pixel convolutional neural network. In _Proceedings of the IEEE conference on computer vision and pattern recognition_, pages 1874–1883, 2016.
 
-###
+***
 @ Mattia Lamberti
 

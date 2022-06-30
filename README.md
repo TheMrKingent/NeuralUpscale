@@ -10,7 +10,7 @@ Requirements: `Tensorflow`, `PIL`.
 ***
 ### Quick Guide
 
-1. Import necessary utilities:
+1. Import necessary utilities, all dependencies are loaded automatically:
 
 ```python
 from UpscalingUtilities import *

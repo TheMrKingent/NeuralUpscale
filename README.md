@@ -2,7 +2,7 @@
 
 Upscale images by a factor of 2 via deep convolutional neural network on Python: API and pre-trained models, based on the [ESPC](https://arxiv.org/pdf/1609.05158.pdf) architecture by Shi et al. 2016 [1].
 
-Two pre-trained models are included: Luminance and RGB, both of which were trained on approximately 33k various images (~6.5Gb). You can, however, use any Tensorflow model which is compatible with the architecture, or even train your own, in which case `UpscalingUtilities` package may be useful.
+Two pre-trained models are included: Luminance and RGB, both of which were trained approximately on 33k various images (~6.5Gb). You can, however, use any Tensorflow model which is compatible with the architecture, or even train your own, in which case `UpscalingUtilities` package and `Training.ipynb` notebook may be useful.
 
 Requirements: `Tensorflow`, `PIL`. Tested on Python 3.10.
 
@@ -26,7 +26,7 @@ model = load_upscaling_model('../Luminance_Model')
 3. Load desired image using `Tensorflow`'s function, which returns a `PIL` image instance:
 
 ```python
-img = load_img(../img.png)
+img = load_img('../img.png')
 ```
 
 4. Initialize an upscaler object using the appropriate function. Either `luminanceUpscaler()` or `rgbUpscaler()`. In this example:
@@ -38,8 +38,8 @@ upscaler = luminanceUpscaler(model)
 5. Upscale! Returns a `PIL` image instance, which you can save as usual:
 
 ```python
-2x_img = upscaler.upscale(img)
-2x_img.save('../title.png')
+img_2x = upscaler.upscale(img)
+img_2x.save('../title.png')
 ```
 
 ***

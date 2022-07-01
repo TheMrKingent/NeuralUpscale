@@ -1,6 +1,6 @@
 # Neural Upscale 2x
 
-Upscale images by a factor of 2 via deep convolutional neural network on Python: API and pre-trained models, based on the [ESPC](https://arxiv.org/pdf/1609.05158.pdf) architecture by Shi et al. 2016 [1].
+Upscale images by a factor of 2 via deep convolutional neural network in Python: API and pre-trained models, based on the [ESPC](https://arxiv.org/pdf/1609.05158.pdf) architecture by Shi et al. 2016 [1].
 
 Two pre-trained models are included: Luminance and RGB, both of which were trained approximately on 33k various images (~6.5Gb). You can, however, use any Tensorflow model which is compatible with the architecture, or even train your own, in which case `UpscalingUtilities` package and `Training.ipynb` notebook may be useful.
 

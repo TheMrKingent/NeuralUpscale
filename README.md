@@ -43,7 +43,7 @@ img_2x.save('../title.png')
 ```
 
 ***
-![LargeMatrix](https://user-images.githubusercontent.com/44241033/176727675-a489f74f-784c-4d5f-81c2-624c2be53b36.png)
+![LargeMatrix](https://user-images.githubusercontent.com/44241033/195892182-c8f0f600-652b-45cb-8160-ab25f7d9714b.PNG)
 
 ***
 ### References

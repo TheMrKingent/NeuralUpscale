@@ -47,7 +47,7 @@ def resize_to_half(input_image, training_gt_size):
 
 
 def associate_gt(input_image, training_gt_size):
-    '''Associate halved samples to ground truth. Return tuple: (halved_train_sample, ground_truth).'''
+    '''Associates halved samples to ground truth. Return tuple: (halved_train_sample, ground_truth).'''
     
     return (resize_to_half(input_image, training_gt_size), input_image)
 
@@ -159,7 +159,7 @@ def bicubic_upscale(img):
 def compare(img, upscaler, title=None, zoom=2, x1=200, x2=300, y1=100, y2=200, suplot_loc=2, loc1=1, loc2=3, save=False, dpi=100):
     '''Plots Groud truth, downscaled + Bicubic upscale, downscaled + Neural net upscale. Also returns PSNR.
     
-    upscaler can eventually be a list of upscaler objects, in which case one image per upscaler will be plotted.
+    upscaler arg can eventually be a list of upscaler objects, in which case one image per upscaler will be plotted.
     Useful for performance evaluation.'''
 
     img = tf.image.resize(img, (img.size[1] //2 * 2, img.size[0] //2 * 2))

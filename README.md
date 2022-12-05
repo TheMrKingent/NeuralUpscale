@@ -35,7 +35,7 @@ img = load_img('../img.png')
 upscaler = luminanceUpscaler(model)
 ```
 
-5. Upscale! Returns a `PIL` image instance, which you can save as usual:
+5. Upscale! Returns an image upscaled by a factor of 2 in both width and height (4 times as many pixels) as a `PIL` image instance, which you can save as usual:
 
 ```python
 img_2x = upscaler.upscale(img)

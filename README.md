@@ -1,5 +1,7 @@
 # Neural Upscale 2x
 
+![headline](https://github.com/TheMrKingent/NeuralUpscale/assets/44241033/faed46c7-0767-4c39-af96-4e39bd59b1ea)
+
 Upscale images by a factor of 2 via deep convolutional neural network in Python: API and pre-trained models, based on the [ESPC](https://arxiv.org/pdf/1609.05158.pdf) architecture by Shi et al. 2016 [1].
 
 Two pre-trained models are included: Luminance and RGB, both of which were trained on approximately 33k various images (~6.5Gb). You can, however, use any Tensorflow model which is compatible with the architecture, or even train your own, in which case `UpscalingUtilities` package and `Training.ipynb` notebook may be useful.
@@ -50,7 +52,4 @@ img_2x.save('../title.png')
 
 <a id="1">[1]</a> 
 Wenzhe Shi, Jose Caballero, Ferenc Huszár, Johannes Totz, Andrew P Aitken, Rob Bishop, Daniel Rueckert, and Zehan Wang. Real-time single image and video super-resolution using an efficient sub-pixel convolutional neural network. In _Proceedings of the IEEE conference on computer vision and pattern recognition_, pages 1874–1883, 2016.
-
-***
-@ Mattia Lamberti
 
